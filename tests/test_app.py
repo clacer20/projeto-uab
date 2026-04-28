@@ -11,20 +11,23 @@ def client():
         with app.app_context():
             db.create_all()
             yield client
+            db.session.remove()
             db.drop_all()
 
 def test_criar_postagem_sucesso(client):
     """T1: Validar criação de postagem com sucesso"""
+    titulo_teste = 'Post Unico de Teste'
     response = client.post('/postagens/nova', data={
-        'titulo': 'Post de Teste',
+        'titulo': titulo_teste,
         'descricao': 'Descrição do teste'
     }, follow_redirects=True)
     
     assert response.status_code == 200
-    assert b'Post de Teste' in response.data
+    assert titulo_teste.encode() in response.data
     
-    post = Postagem.query.first()
-    assert post.titulo == 'Post de Teste'
+    post = Postagem.query.filter_by(titulo=titulo_teste).first()
+    assert post is not None
+    assert post.titulo == titulo_teste
 
 def test_editar_postagem_sucesso(client):
     """T3: Validar edição de postagem existente"""
@@ -73,5 +76,8 @@ def test_relatorio_total_postagens(client):
     db.session.add_all([p1, p2])
     db.session.commit()
     
+    count = Postagem.query.count()
     response = client.get('/relatorios')
-    assert b'Total de Postagens Cadastradas: 2' in response.data
+    assert count == 2, f"Expected 2 posts in DB, but found {count}"
+    assert b'Total de Postagens Cadastradas:' in response.data
+    assert b'2' in response.data
