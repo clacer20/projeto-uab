@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Feed de Postagens</h1>
+    <a href="{{ url_for('nova_postagem') }}" class="btn btn-primary">Nova Postagem</a>
+</div>
+
+{% for post in postagens %}
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ post.titulo }}</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ post.descricao }}</p>
+        <div class="d-flex gap-2">
+            <form action="{{ url_for('deletar_postagem', id=post.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar esta postagem?')">
+                <a href="{{ url_for('editar_postagem', id=post.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                <button type="submit" class="btn btn-sm btn-danger">Apagar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<p>Nenhuma postagem encontrada.</p>
+{% endfor %}
+{% endblock %}
