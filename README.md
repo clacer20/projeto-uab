@@ -44,6 +44,16 @@ Este é um sistema de microblog funcional desenvolvido com **Flask** e **SQLAlch
    docker run -d --name microblog-web -p 5000:5000 microblog-app
    ```
 
+## 🧪 Como Rodar os Testes
+
+Os testes foram desenvolvidos seguindo a metodologia TDD e podem ser executados diretamente dentro do contêiner Docker:
+
+1. Certifique-se de que o contêiner está rodando.
+2. Execute o comando:
+   ```bash
+   docker exec microblog-web python3 -m pytest tests/test_app.py
+   ```
+
 ## 📁 Estrutura do Projeto
 
 - `app/`: Contém o código-fonte da aplicação Flask.
