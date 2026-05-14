@@ -55,22 +55,28 @@ SE o script for executado diretamente (\_\_name\_\_ \== '\_\_main\_\_'):
 \#\#\# Arquivos da Aplicação (Backend)
 
 \`\`\`text  
-/app/\_\_init\_\_.py  
+/app/__init__.py  
 ação: criar  
-descrição: Inicialização do microsserviço Flask, carregamento de variáveis de ambiente e configuração do banco de dados.  
+descrição: Inicialização do microsserviço Flask, carregamento de variáveis de ambiente e configuração robusta do banco de dados com caminhos absolutos e logs de depuração.  
 pseudocódigo:  
-IMPORTAR Flask  
-IMPORTAR SQLAlchemy  
-IMPORTAR load\_dotenv  
-EXECUTAR load\_dotenv() para ler ".env"  
+IMPORTAR Flask, SQLAlchemy, load_dotenv, os, sys  
+EXECUTAR load_dotenv() para ler ".env"  
 INSTANCIAR aplicativo Flask em variável "app"  
 CONFIGURAR app.config['SECRET_KEY'] a partir do ambiente  
-CONFIGURAR app.config['SQLALCHEMY_DATABASE_URI'] a partir do ambiente (padrão: "sqlite:///app.db")  
+DEFINIR "basedir" como o caminho absoluto do diretório do script atual  
+DEFINIR "instance_path" como o caminho absoluto da pasta "../instance"  
+GARANTIR que "instance_path" existe fisicamente  
+DEFINIR "db_path" como o caminho para o arquivo "app.db" dentro da "instance_path"  
+CONFIGURAR app.config['SQLALCHEMY_DATABASE_URI'] usando o caminho absoluto "sqlite:///" + db_path  
 CONFIGURAR app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] como FALSO  
+EXIBIR Log de Depuração (DEBUG) com o caminho final do banco de dados  
 INSTANCIAR SQLAlchemy passando "app", salvar em variável "db"  
 IMPORTAR módulo "models" (do pacote app)  
 IMPORTAR módulo "routes" (do pacote app)  
-CRIAR todas as tabelas do banco de dados executando "db.create_all()" dentro do contexto do app ("with app.app_context()")  
+DENTRO do contexto do app ("with app.app_context()"):  
+  EXIBIR Log de Depuração (DEBUG) de início de criação  
+  CRIAR todas as tabelas do banco de dados executando "db.create_all()"  
+  EXIBIR Log de Depuração (DEBUG) listando as tabelas registradas no metadados para conferência  
 \`\`\`
 
 \`\`\`text  
