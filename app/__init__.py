@@ -16,9 +16,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+# Import models to ensure they are registered with SQLAlchemy metadata
 from app import models, routes
 
 # Ensure the instance folder and tables exist
 with app.app_context():
-    os.makedirs(app.instance_path, exist_ok=True)
+    # Use an absolute path for the instance folder to avoid ambiguity
+    instance_path = app.instance_path
+    if not os.path.exists(instance_path):
+        os.makedirs(instance_path, exist_ok=True)
+    
+    # Force registration check and creation
     db.create_all()
