@@ -64,13 +64,13 @@ IMPORTAR SQLAlchemy
 IMPORTAR load\_dotenv  
 EXECUTAR load\_dotenv() para ler ".env"  
 INSTANCIAR aplicativo Flask em variável "app"  
-CONFIGURAR app.config\['SECRET\_KEY'\] a partir do ambiente  
-CONFIGURAR app.config\['SQLALCHEMY\_DATABASE\_URI'\] a partir do ambiente (padrão: "sqlite:///app.db")  
-CONFIGURAR app.config\['SQLALCHEMY\_TRACK\_MODIFICATIONS'\] como FALSO  
+CONFIGURAR app.config['SECRET_KEY'] a partir do ambiente  
+CONFIGURAR app.config['SQLALCHEMY_DATABASE_URI'] a partir do ambiente (padrão: "sqlite:///app.db")  
+CONFIGURAR app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] como FALSO  
 INSTANCIAR SQLAlchemy passando "app", salvar em variável "db"  
-IMPORTAR módulo "routes" (do pacote app)  
 IMPORTAR módulo "models" (do pacote app)  
-CRIAR todas as tabelas do banco de dados executando "db.create\_all()"  
+IMPORTAR módulo "routes" (do pacote app)  
+CRIAR todas as tabelas do banco de dados executando "db.create_all()" dentro do contexto do app ("with app.app_context()")  
 \`\`\`
 
 \`\`\`text  
