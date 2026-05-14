@@ -26,18 +26,25 @@ Este documento descreve a estratégia de testes automatizados para o Sistema de 
 | T5 | Listagem (Index) | Ordem Decrescente | Média | Validar se as postagens são exibidas da mais recente para a mais antiga. |
 | T6 | Relatórios | Cálculo de Total | Alta | Validar se o contador de postagens reflete o estado real do banco de dados. |
 
-## 3. Implementação dos Testes (TDD)
+## 3. Implementação dos Testes (TDD e Integração)
 
-Os testes devem simular o cliente HTTP do Flask (`app.test_client()`) para validar as rotas e o estado do banco de dados SQLAlchemy.
+O projeto conta com dois conjuntos principais de testes:
+1. **Testes de Unidade (`tests/test_app.py`):** Focam na lógica das rotas e comportamentos individuais do Flask.
+2. **Testes de Integração (`tests/test_integration.py`):** Validam a comunicação entre Frontend (HTML/Templates), Backend (Lógica Flask) e Banco de Dados (Persistência Real).
 
-### Dependências para Execução
-As dependências listadas no `requirements.txt` (incluindo `pytest`) devem ser instaladas:
+### Detalhes dos Testes de Integração
+- **test_full_flow_integration:** Realiza o fluxo completo — cria uma postagem via formulário web, verifica a gravação no banco de dados e confirma a exibição correta no feed inicial.
+- **test_backend_logic_isolation:** Valida a integridade dos modelos e regras de negócio sem interface gráfica.
+- **test_frontend_rendering_isolation:** Garante que os templates estão sendo renderizados com as variáveis corretas.
+
+### Comando para Execução dentro do Docker (Recomendado)
+Para executar todos os testes automatizados dentro do ambiente de contêiner:
 ```bash
-pip install -r requirements.txt
+docker exec microblog-web python3 -m pytest tests/test_app.py tests/test_integration.py
 ```
 
-### Comando para Execução
-Para executar todos os testes:
+### Comando para Execução Local
+Caso as dependências estejam instaladas localmente:
 ```bash
 pytest
 ```
