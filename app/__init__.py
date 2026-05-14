@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-from app import routes, models
+from app import models, routes
 
 # Ensure the instance folder and tables exist
 with app.app_context():
