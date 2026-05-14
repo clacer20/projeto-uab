@@ -25,6 +25,7 @@ Este documento descreve a estratégia de testes automatizados para o Sistema de 
 |:---|:---|:---|:---|:---|
 | T5 | Listagem (Index) | Ordem Decrescente | Média | Validar se as postagens são exibidas da mais recente para a mais antiga. |
 | T6 | Relatórios | Cálculo de Total | Alta | Validar se o contador de postagens reflete o estado real do banco de dados. |
+| T7 | Navegação | Cancelar Postagem | Crítica | Validar se o retorno da página de cadastro para a home (botão cancelar) ocorre sem erros de banco. |
 
 ## 3. Implementação dos Testes (TDD e Integração)
 
@@ -34,6 +35,7 @@ O projeto conta com dois conjuntos principais de testes:
 
 ### Detalhes dos Testes de Integração
 - **test_full_flow_integration:** Realiza o fluxo completo — cria uma postagem via formulário web, verifica a gravação no banco de dados e confirma a exibição correta no feed inicial.
+- **test_cancel_button_redirection:** Verifica especificamente a estabilidade do sistema ao navegar da página de criação de volta para a Home (simulando o botão Cancelar).
 - **test_backend_logic_isolation:** Valida a integridade dos modelos e regras de negócio sem interface gráfica.
 - **test_frontend_rendering_isolation:** Garante que os templates estão sendo renderizados com as variáveis corretas.
 

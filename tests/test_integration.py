@@ -47,6 +47,25 @@ def test_full_flow_integration(client):
     assert b'Titulo Integracao' in response_get.data
     assert b'Descricao Integracao' in response_get.data
 
+def test_cancel_button_redirection(client):
+    """
+    Valida o comportamento do botão 'Cancelar':
+    1. Acessa a rota de nova postagem.
+    2. Simula o clique em cancelar (redirecionamento para index).
+    3. Verifica se a página inicial carrega sem erros de banco de dados.
+    """
+    # Passo 1: Acessar página de criação
+    resp_nova = client.get('/postagens/nova')
+    assert resp_nova.status_code == 200
+    
+    # Passo 2: Simular clique no link 'Cancelar' (que aponta para 'index')
+    # O link no HTML é <a href="{{ url_for('index') }}">
+    resp_index = client.get('/', follow_redirects=True)
+    
+    # Passo 3: Verificar se o sistema permanece estável e carrega o Feed
+    assert resp_index.status_code == 200
+    assert b'Feed de Postagens' in resp_index.data
+
 def test_backend_logic_isolation():
     """Teste isolado da lógica do modelo (Backend/Banco)"""
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
