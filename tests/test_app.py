@@ -29,6 +29,29 @@ def test_criar_postagem_sucesso(client):
     assert post is not None
     assert post.titulo == titulo_teste
 
+def test_criar_postagem_falha_campos_vazios(client):
+    """T2: Garantir que o sistema não aceite postagens sem título ou sem descrição"""
+    # Teste com título vazio
+    response = client.post('/postagens/nova', data={
+        'titulo': '',
+        'descricao': 'Alguma descrição'
+    })
+    assert response.status_code == 400
+    
+    # Teste com descrição vazia
+    response = client.post('/postagens/nova', data={
+        'titulo': 'Algum título',
+        'descricao': ''
+    })
+    assert response.status_code == 400
+    
+    # Teste com apenas espaços
+    response = client.post('/postagens/nova', data={
+        'titulo': '   ',
+        'descricao': '   '
+    })
+    assert response.status_code == 400
+
 def test_editar_postagem_sucesso(client):
     """T3: Validar edição de postagem existente"""
     # Criar uma postagem inicial

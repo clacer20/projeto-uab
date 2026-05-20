@@ -6,6 +6,8 @@ Este é um sistema de microblog funcional desenvolvido com **Flask** e **SQLAlch
 
 - **Feed de Postagens:** Visualização de todas as postagens em ordem cronológica inversa.
 - **Gerenciamento de Conteúdo:** Criação, edição e exclusão de postagens (Título e Descrição).
+- **Validação Robusta:** Verificação de campos obrigatórios tanto no frontend quanto no backend.
+- **Alta Performance:** Implementação de cache de rotas para métricas e processamento de tarefas em segundo plano (jobs).
 - **Relatórios:** Página dedicada para visualização de métricas (total de postagens cadastradas).
 - **Interface Responsiva:** Interface limpa e moderna utilizando **Bootstrap 5**.
 - **Persistência de Dados:** Banco de dados SQLite persistente através de volumes Docker.
@@ -46,12 +48,12 @@ Este é um sistema de microblog funcional desenvolvido com **Flask** e **SQLAlch
 
 ## 🧪 Como Rodar os Testes
 
-Os testes foram desenvolvidos seguindo a metodologia TDD e podem ser executados diretamente dentro do contêiner Docker:
+Os testes garantem a integridade do CRUD e da UI. Podem ser executados via Docker:
 
 1. Certifique-se de que o contêiner está rodando.
 2. Execute o comando:
    ```bash
-   docker exec microblog-web python3 -m pytest tests/test_app.py
+   docker exec microblog-web python3 -m pytest tests/test_app.py tests/test_integration.py
    ```
 
 ## 📁 Estrutura do Projeto
